@@ -2,6 +2,7 @@ package com.example.opinion_vote.utils
 
 import android.util.Log
 import okhttp3.*
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.json.JSONObject
 import java.io.IOException
 
@@ -16,6 +17,19 @@ class ServerUtil {
 
             fun onResponse(jsonObj : JSONObject)
         }
+
+        fun getRequestDupplCheck(type: String, value: String,  handler: JsonResponseHandler?){
+
+            val urlBuilder = "${ BASE_URL}/user_check".toHttpUrlOrNull()!!.newBuilder()
+            urlBuilder.addEncodedQueryParameter("type", type)
+            urlBuilder.addEncodedQueryParameter("value", value)
+
+            val urlString = urlBuilder.build().toString()
+
+            Log.d("완성된 URL", urlString)
+
+        }
+
         fun postRequestLogin(email: String, pw: String, handler: JsonResponseHandler?) {
 //            URL+기능주소+POST+파라미터(emil, pw)
 
