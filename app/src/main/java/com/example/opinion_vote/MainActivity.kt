@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Toast
 import com.example.opinion_vote.utils.ServerUtil
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.emailEdt
+import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.json.JSONObject
 
 class MainActivity : BaseActivity() {
@@ -17,6 +19,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
 
         loginBtn.setOnClickListener {
 
