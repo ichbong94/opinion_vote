@@ -3,6 +3,7 @@ package com.example.opinion_vote
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import com.example.opinion_vote.utils.ContextUtil
 import com.example.opinion_vote.utils.ServerUtil
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONObject
@@ -41,6 +42,10 @@ class LoginActivity : BaseActivity() {
 
                     val code =jsonObj.getInt("code")
                     if(code ==200){
+
+                        val dataObj = jsonObj.getJSONObject("data")
+                        val token = dataObj.getString("token")
+                        ContextUtil.setToken(mContext, token)
 
                         val myIntent = Intent(mContext, MainActivity::class.java)
                         startActivity(myIntent)
