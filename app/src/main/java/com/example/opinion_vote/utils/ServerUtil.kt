@@ -1,5 +1,6 @@
 package com.example.opinion_vote.utils
 
+import android.content.Context
 import android.util.Log
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -17,6 +18,45 @@ class ServerUtil {
 
             fun onResponse(jsonObj : JSONObject)
         }
+
+        fun getRequestMainInfo(context: Context,  handler: JsonResponseHandler?){
+
+            val urlBuilder = "${ BASE_URL}/v2/main_info".toHttpUrlOrNull()!!.newBuilder()
+//            urlBuilder.addEncodedQueryParameter("type", type)
+//            urlBuilder.addEncodedQueryParameter("value", value)
+
+            val urlString = urlBuilder.build().toString()
+
+            Log.d("완성된 URL", urlString)
+
+            val request = Request.Builder()
+                .url(urlString)
+                .get()
+                .header("X-Http-Token", ContextUtil.getToken(context))
+                .build()
+
+            val client = OkHttpClient()
+
+            client.newCall(request).enqueue(object : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+
+                    val bodyString = response.body!!.string()
+                    val jsonObj = JSONObject(bodyString)
+                    Log.d("서버응답본문", jsonObj.toString())
+
+                    handler?.onResponse(jsonObj)
+                }
+
+
+            })
+
+
+        }
+
 
         fun getRequestDupplCheck(type: String, value: String,  handler: JsonResponseHandler?){
 
